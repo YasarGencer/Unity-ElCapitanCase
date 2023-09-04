@@ -34,7 +34,8 @@ public class MainManager : MonoSingleton<MainManager>
         gameManager.Initialize(); 
 		menuManager.Initialize(); 
 		//EventRunner.LoadSceneStart();
-		SceneManager.LoadScene("MainmenuScene", LoadSceneMode.Additive);
+		//SceneManager.LoadScene("MainmenuScene", LoadSceneMode.Additive);
+		SceneManager.LoadScene("InGameScene", LoadSceneMode.Additive);
 	}
 	public void UnloadScene(string sceneName)
 	{

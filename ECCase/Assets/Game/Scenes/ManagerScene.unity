@@ -1574,7 +1574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1051918619
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3173,6 +3173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1839541079}
   - component: {fileID: 1839541080}
+  - component: {fileID: 1839541081}
   m_Layer: 0
   m_Name: InGamePopUp
   m_TagString: Untagged
@@ -3212,6 +3213,18 @@ MonoBehaviour:
   appearTime: 0.2
   disappearTime: 0.2
   goalPopUp: {fileID: 323381177}
+--- !u!225 &1839541081
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839541078}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1911105009
 GameObject:
   m_ObjectHideFlags: 0

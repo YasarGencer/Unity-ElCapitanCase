@@ -185,6 +185,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: image (45)_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74fd015b21625c24b9c3e11d0bc4c048
+      internalID: 1898660390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -199,6 +220,7 @@ TextureImporter:
       image (45)_0: 296939900
       image (45)_1: 1619214628
       image (45)_2: -1117326592
+      image (45)_3: 1898660390
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
