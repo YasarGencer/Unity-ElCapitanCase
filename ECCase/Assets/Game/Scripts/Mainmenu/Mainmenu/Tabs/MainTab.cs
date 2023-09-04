@@ -9,8 +9,8 @@ public class MainTab : Tab {
         base.Initialize(size); 
     }
     public void ButtonStart() {  
-        SceneManager.LoadScene("InGameScene", LoadSceneMode.Additive);
         EventRunner.LoadSceneStart();
-        SceneManager.UnloadSceneAsync("GameMainMenu");
+        SceneManager.LoadScene("InGameScene", LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("MainmenuScene");
     } 
 }

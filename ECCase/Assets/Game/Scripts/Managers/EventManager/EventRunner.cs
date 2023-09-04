@@ -42,6 +42,7 @@ using UnityEngine;
         public static void LoadSceneFinish()
         {
             MainManager.Instance.EventManager.InvokeEvent(EventTypes.LoadSceneFinish);
+            MainManager.Instance.EventManager.InvokeEvent(EventTypes.LevelLoaded);
         }
 
         public static void Stationary(Vector3Args args)
