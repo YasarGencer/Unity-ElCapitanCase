@@ -636,6 +636,7 @@ MonoBehaviour:
   gridManager: {fileID: 916851840}
   buttonManager: {fileID: 1353421214}
   testBlocks: {fileID: 1834353401}
+  currentLevel: {fileID: 0}
 --- !u!4 &1229197724
 Transform:
   m_ObjectHideFlags: 0

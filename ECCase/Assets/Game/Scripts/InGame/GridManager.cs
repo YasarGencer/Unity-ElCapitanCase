@@ -1,7 +1,9 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
@@ -20,9 +22,22 @@ public class GridManager : MonoBehaviour {
             grid[i] = new BlockController[6];  
         }
         //DebugWholeGrid(); 
+        PlaceLevelSettings();
         Invoke("PlaceOnGrid", 1f); 
     } 
     // CheckGrid => MovingBitsDown => PlaceNewBits
+    void PlaceLevelSettings() {
+        for (int i = 0; i < InGameManager.Instance.LevelSettings.Goals.Count; i++) {
+            GameObject prefab = InGameManager.Instance.LevelSettings.Goals[i].Prefab;
+            for (int j = 0; j < InGameManager.Instance.LevelSettings.Goals[i].Positions.Count; j++) {
+                GoalController goal = Instantiate(prefab, gridContainer).GetComponent<GoalController>();
+                int x = InGameManager.Instance.LevelSettings.Goals[i].Positions[j].x;
+                int y = InGameManager.Instance.LevelSettings.Goals[i].Positions[j].y;
+                grid[x][y] = goal;
+                goal.Initialize(ConvertGridToPos(x, y), FindOpenLeg(x, y), x, y);
+            }
+        }
+    }
     void PlaceOnGrid() { 
         for (int i = 0; i < 6; i++) { // x axis
             for (int j = 0; j < 6; j++) { // y axis 
@@ -42,6 +57,8 @@ public class GridManager : MonoBehaviour {
         for (int i = 0; i < 6; i++) // x axis
             for (int j = 0; j < 6; j++) { // y axis
                 if (controlled[j][i])
+                    continue;
+                if (grid[j][i] == null)
                     continue;
                 controlled[j][i] = true;
                 list.Clear();
@@ -109,12 +126,10 @@ public class GridManager : MonoBehaviour {
         }
     }
 
-
     void PlayersTurn() {
         InGameManager.Instance.IsPlayable = true;
         InGameManager.Instance.ButtonManager.PlayableAnim();
     }
-
     public void RotateButtonPressed(List<int2> positions) {
         Rotate4Bit(positions); 
         Invoke("CheckGrid", .5f);
@@ -162,6 +177,21 @@ public class GridManager : MonoBehaviour {
             return;
         grid[j][i].Pop();
         grid[j][i] = null;
+
+        //check corners for goals
+        int a = i;
+        int b = j;
+        for (i = a - 1  ; i < a + 1; i++) // x axis
+            for (j = b - 1 ; j < b + 1; j++) { // y axis
+                if(j >= 0 && i >= 0 && i < 6 && j < 6)
+                if (grid[j][i] != null) {
+                    grid[j][i].GetComponent<GoalController>()?.Pop();
+                }
+
+            }
+    }
+    public void RemoveFromGrid2(int x, int y) {
+        grid[x][y] = null;
     }
     bool[][] InitializeBoolArray() {
 
@@ -171,7 +201,7 @@ public class GridManager : MonoBehaviour {
         }
         return array;
     }
-     void MoveBit(int j, int i) {
+    void MoveBit(int j, int i) {
         if (grid[j][i] == null)
             return;
         grid[j][i].Move(ConvertGridToPos(j - 1, i));
@@ -193,4 +223,5 @@ public class GridManager : MonoBehaviour {
 
 
     }
+
 }

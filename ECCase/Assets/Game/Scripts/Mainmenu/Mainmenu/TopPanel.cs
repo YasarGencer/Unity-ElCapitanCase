@@ -15,7 +15,7 @@ public class TopPanel : MonoBehaviour
     }
     public void SetGold() {
         //goldText.text = MainManager.Instance.CurrencyManager.currencies[0].currencyAmount.ToString();
-        goldText.text = Random.Range(0, 1000).ToString();
+        goldText.text = MainManager.Instance.CoinManager.GetCoin().ToString();
     } 
     public void SetHealth() {
         healthCountText.text = "  ";

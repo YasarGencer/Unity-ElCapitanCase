@@ -6,6 +6,8 @@ public class MainManager : MonoSingleton<MainManager>
 {    
     [SerializeField] private GameManager gameManager; 
     [SerializeField] private MenuManager menuManager; 
+    [SerializeField] private CoinManager coinManager; 
+    [SerializeField] private LevelManager levelManager; 
 	 
 	private EventManager eventManager; 
 
@@ -14,6 +16,8 @@ public class MainManager : MonoSingleton<MainManager>
 	 
     public GameManager GameManager { get => gameManager; } 
     public MenuManager MenuManager { get => menuManager; } 
+    public CoinManager CoinManager { get => coinManager; } 
+    public LevelManager LevelManager { get => levelManager; } 
     public EventManager EventManager { get => eventManager; } 
     public string LastLoadedScene { get => lastLoadedScene; set => lastLoadedScene = value; }
     public GameObject LastLoadedScenePrefab { get => lastLoadedScenePrefab; set => lastLoadedScenePrefab = value; } 
@@ -32,10 +36,13 @@ public class MainManager : MonoSingleton<MainManager>
 		eventManager = new EventManager();
 		eventManager.Initialize();
         gameManager.Initialize(); 
-		menuManager.Initialize(); 
-		//EventRunner.LoadSceneStart();
-		//SceneManager.LoadScene("MainmenuScene", LoadSceneMode.Additive);
-		SceneManager.LoadScene("InGameScene", LoadSceneMode.Additive);
+		menuManager.Initialize();
+		coinManager.Initialize();
+        levelManager.Initialize();
+
+        EventRunner.LoadSceneStart();
+        SceneManager.LoadScene("MainmenuScene", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("InGameScene", LoadSceneMode.Additive);
 	}
 	public void UnloadScene(string sceneName)
 	{
