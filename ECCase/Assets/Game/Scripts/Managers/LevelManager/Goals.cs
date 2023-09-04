@@ -8,6 +8,7 @@ using UnityEngine;
 public class Goals
 {
     public GameObject Prefab;
+    public GameObject UIPrefab;
     public GoalType Type;
     public List<int2> Positions;
     public int Count { get { return Positions.Count; } }

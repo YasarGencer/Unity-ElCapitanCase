@@ -26,6 +26,7 @@ public class ButtonController : MonoBehaviour
             return;
         if (onlyThisPlayable == false)
             return;
+        InGameManager.Instance.IsPlayable = false;
         InGameManager.Instance.ButtonManager.Played(); 
         InGameManager.Instance.GridManager.RotateButtonPressed(positions);
         InGameManager.Instance.UpdateMove();

@@ -28,6 +28,7 @@ public class GoalController : BlockController {
         //StartCoroutine(PopCoroutine());
         InGameManager.Instance.UpdateGoal(Type);
         InGameManager.Instance.GridManager.RemoveFromGrid2(x, y);
+        MainManager.Instance.MenuManager.InGamePanel.SetGoalCount(Type);
     }
 
 

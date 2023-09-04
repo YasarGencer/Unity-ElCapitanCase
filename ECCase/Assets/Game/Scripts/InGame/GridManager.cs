@@ -111,9 +111,11 @@ public class GridManager : MonoBehaviour {
                 for (int j = 1; j < 6; j++) { // y axis
                     if (grid[j][i] != null) {
                         if (grid[j - 1][i] == null) {
-                            MoveBit(j, i);
-                            hasMovedThisLoop = true;
-                            didMove = true;
+                            if (grid[j][i].GetComponent<GoalController>() as GoalController == null) {
+                                MoveBit(j, i);
+                                hasMovedThisLoop = true;
+                                didMove = true;
+                            }
                         }
                     }
 
