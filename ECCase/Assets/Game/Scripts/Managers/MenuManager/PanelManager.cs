@@ -37,7 +37,7 @@ public class PanelManager : MonoBehaviour {
         }
     }
 
-    public virtual void Disappear(bool instantDisappear) {
+    public virtual void Disappear(bool instantDisappear = false) {
 
         if (!gameObject.activeSelf)
             return;
