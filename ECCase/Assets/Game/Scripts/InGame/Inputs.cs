@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inputs : MonoBehaviour
 {
     Camera cam;
-    [SerializeField] LayerMask buttonLayer;
+    [SerializeField] LayerMask ClickLayer;
     private void Start() {
         cam = Camera.main;
     }
@@ -19,8 +19,12 @@ public class Inputs : MonoBehaviour
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if(Physics.Raycast(ray, out hit ,100 , buttonLayer))
-                hit.transform.gameObject.GetComponent<ButtonController>().Press();
+            if(Physics.Raycast(ray, out hit ,100 , ClickLayer)) {
+                if (hit.transform.gameObject.GetComponent<ButtonController>() != null)
+                    hit.transform.gameObject.GetComponent<ButtonController>().Press();
+                else if(hit.transform.gameObject.GetComponent<Places>() != null)
+                    hit.transform.gameObject.GetComponent<Places>().Press();
+            }
         }
     }
 }

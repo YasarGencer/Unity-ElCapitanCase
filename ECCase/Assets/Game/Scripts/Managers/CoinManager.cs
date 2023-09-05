@@ -13,9 +13,13 @@ public class CoinManager : MonoBehaviour
         coins += value;
         PlayerPrefs.SetInt("Coins", coins);
     }
-    public void Spend(int value) {
+    public bool Spend(int value) {
+        if (coins < value)
+            return false;
         coins -= value;
         PlayerPrefs.SetInt("Coins", coins);
+        MainManager.Instance.EventManager.InvokeEvent(EventTypes.CurrencySpent);
+        return true;
     }
 
     public int GetCoin() {

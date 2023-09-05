@@ -8,6 +8,7 @@ public class InGameManager : MonoSingleton<InGameManager>
     [SerializeField] GameObject blockPrefab;
     [SerializeField] GridManager gridManager;
     [SerializeField] ButtonManager buttonManager;
+    [SerializeField] SpecialsManager specialsManager;
     [SerializeField] GameObject testBlocks;
 
     [SerializeField] LevelSettings currentLevel;
@@ -15,6 +16,7 @@ public class InGameManager : MonoSingleton<InGameManager>
     public GameObject BlockPrefab { get { return blockPrefab; } }
     public GridManager GridManager { get { return gridManager; } }
     public ButtonManager ButtonManager { get { return buttonManager; } }
+    public SpecialsManager SpecialsManager { get { return specialsManager; } }
     public LevelSettings LevelSettings { get { return currentLevel; } }
 
     public bool IsPlayable { get; set; }
@@ -26,6 +28,7 @@ public class InGameManager : MonoSingleton<InGameManager>
         MainManager.Instance.MenuManager.InGamePanel.Appear();
         gridManager.Initialize();
         buttonManager.Initialize();
+        specialsManager.Initialize();
     }
     public void UpdateMove() {
         currentLevel.MoveCount -= 1;
