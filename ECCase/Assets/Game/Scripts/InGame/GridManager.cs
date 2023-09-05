@@ -1,13 +1,7 @@
-using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Linq;
-using Unity.Mathematics;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEngine;
-using UnityEngine.Rendering;
+using DG.Tweening; 
+using System.Collections.Generic; 
+using Unity.Mathematics; 
+using UnityEngine; 
 
 public class GridManager : MonoBehaviour {
     BlockController[][] grid;
@@ -15,8 +9,7 @@ public class GridManager : MonoBehaviour {
     [SerializeField] private Transform gridContainer;
 
     [SerializeField] GameObject[] positions;
-    public void Initialize() {
-        DOTween.SetTweensCapacity(500, 500);
+    public void Initialize() { 
         grid = new BlockController[6][];
         for (int i = 0; i < 6; i++) {
             grid[i] = new BlockController[6];  
@@ -38,16 +31,22 @@ public class GridManager : MonoBehaviour {
             }
         }
     }
-    void PlaceOnGrid() { 
+    void PlaceOnGrid() {
+        bool isPlaced = false;
         for (int i = 0; i < 6; i++) { // x axis
             for (int j = 0; j < 6; j++) { // y axis 
                 if (grid[j][i] == null) {
                     grid[j][i] = Instantiate(InGameManager.Instance.BlockPrefab, gridContainer).GetComponent<BlockController>();
                     grid[j][i].Initialize(ConvertGridToPos(j, i), FindOpenLeg(j, i));
+                    isPlaced = true;
                 }
             }
         }
-        Invoke("CheckGrid", .5f);
+        if (isPlaced) {
+            Invoke("CheckGrid", .5f);
+        } else {
+            PlayersTurn();
+        }
     }
     void CheckGrid() {
         bool didPop = false;
@@ -103,8 +102,7 @@ public class GridManager : MonoBehaviour {
 
     }
     void MovingBitsDown() {
-        bool hasMovedThisLoop = true;
-        bool didMove = false;
+        bool hasMovedThisLoop = true; 
         while (hasMovedThisLoop) {
             hasMovedThisLoop = false;
             for (int i = 0; i < 6; i++) // x axis
@@ -113,19 +111,14 @@ public class GridManager : MonoBehaviour {
                         if (grid[j - 1][i] == null) {
                             if (grid[j][i].GetComponent<GoalController>() as GoalController == null) {
                                 MoveBit(j, i);
-                                hasMovedThisLoop = true;
-                                didMove = true;
+                                hasMovedThisLoop = true; 
                             }
                         }
                     }
 
                 }
-        }
-        if (didMove)
-            Invoke("PlaceOnGrid", .5f);
-        else {
-            PlayersTurn();
-        }
+        } 
+        Invoke("PlaceOnGrid", .5f); 
     }
 
     void PlayersTurn() {

@@ -6,11 +6,13 @@ using UnityEngine;
 
 public class InGamePanel : PanelManager {
     [SerializeField] TextMeshProUGUI moveCount;
+    [SerializeField] TextMeshProUGUI coinText;
     [SerializeField] Transform GoalContainer;
     List<GoalUI> Goals;
     public override void Initialize() {
         base.Initialize();
         MainManager.Instance.EventManager.Register(EventTypes.LoadSceneStart, CreateGoals);
+        MainManager.Instance.EventManager.Register(EventTypes.LoadSceneStart, SetCoinAmount);
     }
     void CreateGoals(EventArgs args) {
         for (int i = 0; i < GoalContainer.childCount; i++) {
@@ -33,5 +35,8 @@ public class InGamePanel : PanelManager {
                 item.LowerCount();
             }
         }
+    }
+    public void SetCoinAmount(EventArgs args) {
+        coinText.text = MainManager.Instance.CoinManager.GetCoin().ToString();
     }
 }

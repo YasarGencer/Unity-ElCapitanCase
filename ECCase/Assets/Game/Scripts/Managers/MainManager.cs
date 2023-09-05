@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; 
-using System.Collections;  
+using System.Collections;
+using DG.Tweening;
 
 public class MainManager : MonoSingleton<MainManager>
 {    
@@ -23,7 +24,7 @@ public class MainManager : MonoSingleton<MainManager>
     public GameObject LastLoadedScenePrefab { get => lastLoadedScenePrefab; set => lastLoadedScenePrefab = value; } 
 	private void Awake()
 	{
-		 
+		DOTween.SetTweensCapacity(1000, 100);
 		Application.targetFrameRate = 60;
 		QualitySettings.vSyncCount = 0;
 
