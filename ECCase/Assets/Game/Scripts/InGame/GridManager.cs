@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Mathematics; 
 using UnityEngine; 
 
@@ -10,6 +11,7 @@ public class GridManager : MonoBehaviour {
     [SerializeField] private Transform gridContainer;
 
     [SerializeField] GameObject[] positions;
+    [SerializeField] GameObject coinEdffect;
     public void Initialize() { 
         grid = new BlockController[6][];
         for (int i = 0; i < 6; i++) {
@@ -32,17 +34,18 @@ public class GridManager : MonoBehaviour {
             }
         }
     }
-    void PlaceOnGrid() {
+    async void PlaceOnGrid() {
         bool isPlaced = false;
         for (int i = 0; i < 6; i++) { // x axis
             for (int j = 0; j < 6; j++) { // y axis 
                 if (grid[j][i] == null) {
+                    await Task.Delay(50);
                     grid[j][i] = Instantiate(InGameManager.Instance.BlockPrefab, gridContainer).GetComponent<BlockController>();
                     grid[j][i].Initialize(ConvertGridToPos(j, i), FindOpenLeg(j, i));
                     isPlaced = true;
                 }
             }
-        }
+        } 
         if (isPlaced) {
             Invoke("CheckGrid", .5f);
         } else {
@@ -148,6 +151,8 @@ public class GridManager : MonoBehaviour {
                         RemoveFromGrid(item.x, item.y);
                         didPop = true;
                     }
+                if(list.Count > 4)
+                    CoinEffect(list);
             }
         if (didPop)
             Invoke("MovingBitsDown", .5f);
@@ -177,8 +182,15 @@ public class GridManager : MonoBehaviour {
     }
 
     void PlayersTurn() {
-        InGameManager.Instance.IsPlayable = true;
-        InGameManager.Instance.ButtonManager.PlayableAnim();
+        if (InGameManager.Instance.CheckGoals()) { 
+            MainManager.Instance.MenuManager.WinFailPanel.WinPanel();
+            MainManager.Instance.LevelManager.NextLevel();
+        }else if (InGameManager.Instance.CheckMoves()) {
+            MainManager.Instance.MenuManager.WinFailPanel.LosePanel();
+        } else {
+            InGameManager.Instance.IsPlayable = true;
+            InGameManager.Instance.ButtonManager.PlayableAnim();
+        }
     }
     public void RotateButtonPressed(List<int2> positions) {
         Rotate4Bit(positions); 
@@ -223,7 +235,7 @@ public class GridManager : MonoBehaviour {
             }
     }
     public void RemoveFromGrid(int j, int i) {
-        if (j > 6 || i > 6 || i < 0 || j < 0)
+        if (j >= 6 || i >= 6 || i < 0 || j < 0)
             return;
         if (grid[j][i] == null)
             return;
@@ -275,7 +287,7 @@ public class GridManager : MonoBehaviour {
     void MoveBit(int j, int i) {
         if (grid[j][i] == null)
             return;
-        grid[j][i].Move(ConvertGridToPos(j - 1, i));
+        grid[j][i].Move(ConvertGridToPos(j - 1, i), true);
         grid[j - 1][i] = grid[j][i];
         grid[j][i] = null;
      }
@@ -297,5 +309,19 @@ public class GridManager : MonoBehaviour {
 
     public bool IsGoal(int2 position) {
         return grid[position.x][position.y].gameObject.GetComponent<GoalController>() as GoalController != null;
+    }
+    async void CoinEffect(List<int2> list) {
+        int2 total = new(0, 0);
+        foreach (var item in list) {
+            total += item;
+        }
+        GameObject coin = Instantiate(coinEdffect, ConvertGridToPos(total.x / list.Count, total.y / list.Count), Quaternion.identity);
+        coin.transform.position += new Vector3(0, 0, -1.5f);
+
+        Vector2 scale = coin.transform.localScale;
+        coin.transform.localScale = Vector2.zero;
+        coin.transform.DOScale(scale * 1.2f, .5f).OnComplete(() => coin.transform.DOScale(scale, .25f));
+        await Task.Delay(500);
+        coin.transform.DOMove(new Vector3(3, 4, coin.transform.position.z), .5f).OnComplete(() => MainManager.Instance.CoinManager.Gain(list.Count * 5));
     }
 }

@@ -38,4 +38,4 @@ MonoBehaviour:
     - x: 1
       y: 4
     uiSprite: {fileID: 21300000, guid: fa2784ede4c675744b6f3db5137c5763, type: 3}
-  moveCount: 50
+  moveCount: 20

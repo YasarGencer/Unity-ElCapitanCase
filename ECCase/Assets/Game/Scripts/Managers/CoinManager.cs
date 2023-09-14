@@ -12,6 +12,7 @@ public class CoinManager : MonoBehaviour
     public void Gain(int value) {
         coins += value;
         PlayerPrefs.SetInt("Coins", coins);
+        MainManager.Instance.EventManager.InvokeEvent(EventTypes.CurrencyEarned);
     }
     public bool Spend(int value) {
         if (coins < value)

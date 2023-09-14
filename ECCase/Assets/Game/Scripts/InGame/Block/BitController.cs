@@ -19,9 +19,5 @@ public class BitController : MonoBehaviour {
     } 
     public void Pop() {
         bits[this.openBit].transform.DOScale(scale * 1.2f, .35f).SetEase(Ease.InCirc).OnComplete(() => bits[this.openBit].transform.DOScale(0, .15f)).SetEase(Ease.InCirc);
-    }
-
-    public void Move(Vector2 pos) {
-        transform.DOMove(pos, .5f).SetEase(Ease.InCirc);
-    }
+    } 
 }

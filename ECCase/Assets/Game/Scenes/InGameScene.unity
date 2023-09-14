@@ -240,6 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   special1: {fileID: 728111103544734064, guid: 6fccdd1e87622f44bbec28950e7f970f, type: 3}
   special2: {fileID: 3069424914227911042, guid: ba9e4db557c5c7a4ea0588c62492094b, type: 3}
+  speacialEffect1: {fileID: 1000011797152326, guid: 5eb307c76d2f15b4bb1785926fbeeec2, type: 3}
   neededLevelFor1: 3
   neededLevelFor2: 10
   price1: 100
@@ -694,6 +695,7 @@ MonoBehaviour:
   - {fileID: 8673471061135857829}
   - {fileID: 8673471061135857828}
   - {fileID: 8673471061135857827}
+  coinEdffect: {fileID: 7250544738738089412, guid: b7d56e7ed43cc7c429826dde5817abf0, type: 3}
 --- !u!1 &1048369362 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9064397631029940531, guid: 6c1ac54536c1acb48bc9a6cb1f39d67c, type: 3}

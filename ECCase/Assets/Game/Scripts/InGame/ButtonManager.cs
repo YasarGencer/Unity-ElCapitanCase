@@ -11,9 +11,7 @@ public class ButtonManager : MonoBehaviour
             item.Initialize();
         } 
     }
-    public void Played() {
-        if (InGameManager.Instance.IsPlayable == false)
-            return;
+    public void Played() { 
         foreach (var button in buttons) {
             button.Played();
         }

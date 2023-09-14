@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,11 +19,14 @@ public class InGamePanel : PanelManager {
         public TextMeshProUGUI LevelText, PriceText;
         public Button specialButton;
     }
+    Vector2 coinScale;
     public override void Initialize() {
         base.Initialize();
         MainManager.Instance.EventManager.Register(EventTypes.LoadSceneStart, CreateGoals);
         MainManager.Instance.EventManager.Register(EventTypes.LoadSceneStart, SetCoinAmount);
         MainManager.Instance.EventManager.Register(EventTypes.CurrencySpent, SetCoinAmount);
+        MainManager.Instance.EventManager.Register(EventTypes.CurrencyEarned, SetCoinAmount);
+        coinScale = coinText.transform.localScale;
     }
     void CreateGoals(EventArgs args) {
         for (int i = 0; i < GoalContainer.childCount; i++) {
@@ -38,6 +42,7 @@ public class InGamePanel : PanelManager {
     }
     public void MoveCount(int count) {
         moveCount.text = count.ToString();
+        moveCount.transform.DOPunchScale(new Vector2(.4f, .4f), .2f);
     }
     public void SetGoalCount(GoalType type) {
         foreach (var item in Goals) {
@@ -47,6 +52,7 @@ public class InGamePanel : PanelManager {
         }
     }
     public void SetCoinAmount(EventArgs args) {
+        coinText.transform.DOPunchScale(new Vector2(.4f, .4f), .2f).OnComplete(() => coinText.transform.DOScale(coinScale, .1f));
         coinText.text = MainManager.Instance.CoinManager.GetCoin().ToString();
     }
     public void UpdateSpecialUIInfo(int first,int second, int firstP, int secondP, UnityAction specialPress1, UnityAction specialPress2) {
@@ -86,6 +92,34 @@ public class InGamePanel : PanelManager {
                 break;
             default:
                 break;
+        }
+    }
+    public void SpecialPunch(int type, bool value) {
+        if (value) {
+            switch (type) {
+                case 1:
+                    first.Lock.transform.parent.DOPunchScale(-1 * new Vector3(0.3f, 0.3f, 0), .35f);
+                    break;
+                case 2:
+                    second.Lock.transform.parent.DOPunchScale(-1 * new Vector3(0.3f, 0.3f, 0), .35f);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            first.Lock.transform.parent.GetComponentInParent<HorizontalLayoutGroup>().enabled = false;
+            switch (type) {
+                case 1:
+                    first.Lock.transform.parent.DOPunchPosition(-1 * new Vector3(30, 30, 0), .15f)
+                        .OnComplete(() =>first.Lock.transform.parent.GetComponentInParent<HorizontalLayoutGroup>().enabled = true);
+                    break;
+                case 2:
+                    second.Lock.transform.parent.DOPunchPosition(-1 * new Vector3(30, 30, 0), .15f)
+                        .OnComplete(() => first.Lock.transform.parent.GetComponentInParent<HorizontalLayoutGroup>().enabled = true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
